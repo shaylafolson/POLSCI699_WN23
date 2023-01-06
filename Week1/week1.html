@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.280">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Shayla F. Olson">
+<meta name="dcterms.date" content="2023-01-07">
+
+<title>Week 1: Data Summarization</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="week1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="week1_files/libs/quarto-html/quarto.js"></script>
+<script src="week1_files/libs/quarto-html/popper.min.js"></script>
+<script src="week1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="week1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="week1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="week1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="week1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="week1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="week1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#lecture-slides" id="toc-lecture-slides" class="nav-link active" data-scroll-target="#lecture-slides">Lecture Slides</a></li>
+  <li><a href="#more-on-qq-plots" id="toc-more-on-qq-plots" class="nav-link" data-scroll-target="#more-on-qq-plots">More on QQ Plots</a>
+  <ul class="collapse">
+  <li><a href="#example-broockman-kalla-and-aronow-save-political-science" id="toc-example-broockman-kalla-and-aronow-save-political-science" class="nav-link" data-scroll-target="#example-broockman-kalla-and-aronow-save-political-science">Example: Broockman, Kalla, and Aronow save Political Science</a></li>
+  </ul></li>
+  <li><a href="#try-it-yourself-anes-2020-feeling-thermometers" id="toc-try-it-yourself-anes-2020-feeling-thermometers" class="nav-link" data-scroll-target="#try-it-yourself-anes-2020-feeling-thermometers">Try it Yourself: ANES (2020) Feeling Thermometers</a>
+  <ul class="collapse">
+  <li><a href="#measures-of-location" id="toc-measures-of-location" class="nav-link" data-scroll-target="#measures-of-location">Measures of Location</a>
+  <ul class="collapse">
+  <li><a href="#summary-function" id="toc-summary-function" class="nav-link" data-scroll-target="#summary-function"><code>summary()</code> function</a></li>
+  </ul></li>
+  <li><a href="#measures-of-scale" id="toc-measures-of-scale" class="nav-link" data-scroll-target="#measures-of-scale">Measures of Scale</a></li>
+  <li><a href="#plots" id="toc-plots" class="nav-link" data-scroll-target="#plots">Plots</a>
+  <ul class="collapse">
+  <li><a href="#histogram" id="toc-histogram" class="nav-link" data-scroll-target="#histogram">Histogram</a></li>
+  <li><a href="#boxplot" id="toc-boxplot" class="nav-link" data-scroll-target="#boxplot">Boxplot</a></li>
+  <li><a href="#empirical-distribution-function" id="toc-empirical-distribution-function" class="nav-link" data-scroll-target="#empirical-distribution-function">Empirical Distribution Function</a></li>
+  <li><a href="#quantile-plot" id="toc-quantile-plot" class="nav-link" data-scroll-target="#quantile-plot">Quantile Plot</a></li>
+  <li><a href="#qq-plot---compared-to-normal-distribution" id="toc-qq-plot---compared-to-normal-distribution" class="nav-link" data-scroll-target="#qq-plot---compared-to-normal-distribution">QQ Plot - Compared to Normal Distribution</a></li>
+  </ul></li>
+  <li><a href="#comparing-subgroups" id="toc-comparing-subgroups" class="nav-link" data-scroll-target="#comparing-subgroups">Comparing Subgroups</a>
+  <ul class="collapse">
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms">Histograms</a></li>
+  <li><a href="#qq-plot" id="toc-qq-plot" class="nav-link" data-scroll-target="#qq-plot">QQ Plot</a></li>
+  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots">Boxplots</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 1: Data Summarization</h1>
+<p class="subtitle lead">POLSCI 699 Section</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Shayla F. Olson </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 7, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="lecture-slides" class="level1">
+<h1>Lecture Slides</h1>
+</section>
+<section id="more-on-qq-plots" class="level1">
+<h1>More on QQ Plots</h1>
+<p>QQ Plots allow us to evaluate whether two samples come from the same distribution. Here are some examples comparing a simulated dataset to the standard normal distribution.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>normal <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(normal, <span class="at">col =</span> <span class="st">"gray"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">breaks =</span> <span class="dv">50</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(normal)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>If a distribution is skewed left, the end points will fall below the 45-degree line.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>skew.left <span class="ot">&lt;-</span> <span class="fu">rchisq</span>(<span class="dv">1000</span>, <span class="dv">2</span>) <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(skew.left, <span class="at">col =</span> <span class="st">"gray"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">breaks =</span> <span class="dv">50</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(skew.left)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>If a distribution is skewerd right, the end points will fall above the 45-degree line.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>skew.right <span class="ot">&lt;-</span> <span class="fu">rchisq</span>(<span class="dv">1000</span>, <span class="dv">2</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(skew.right, <span class="at">col =</span> <span class="st">"gray"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">breaks =</span> <span class="dv">50</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(skew.right)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>If a distribution has light tails, this means there are fewer small and large values than what we would expect in the standard normal distribution.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>light.tail <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="sc">-</span><span class="dv">3</span>, <span class="at">max =</span> <span class="dv">3</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(light.tail, <span class="at">col =</span> <span class="st">"gray"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">breaks =</span> <span class="dv">50</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(light.tail)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>If a distribution has heavy tails, this means there are more extreme values (high and low) than what we would expect in the standard normal distribution.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>heavy.tail <span class="ot">&lt;-</span> <span class="fu">rt</span>(<span class="dv">1000</span>, <span class="dv">4</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(heavy.tail, <span class="at">col =</span> <span class="st">"gray"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">breaks =</span> <span class="dv">50</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(heavy.tail)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="example-broockman-kalla-and-aronow-save-political-science" class="level2">
+<h2 class="anchored" data-anchor-id="example-broockman-kalla-and-aronow-save-political-science">Example: Broockman, Kalla, and Aronow save Political Science</h2>
+<p>In 2015, political scientists David Broockman, Joshua Kalla, and Peter Aronow documented some fishy-looking data from an article published in <em>Science</em> by a political science graduate student: <a href="https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=f0d1d857ed05912c69f9e1689597656f828a8e5f">Irregularities in LaCour (2014)</a></p>
+<p>One key concern of Broockman et al was that LaCour’s data looked strikingly similar to a previous survey sample, even though LaCour had claimed the studies to be original random samples. How did they show this? They compared the distributions of the LaCour study data with the previous data from the 2012 Cooperative Campaign Analysis Project (CCAP).</p>
+<p>You can check out the link for their full report, but here’s just a quick example of what they found. <em>Note: this is not the exact data or procedures in Broockman et al.</em></p>
+<div class="cell">
+
+</div>
+<p>The histograms of the LaCour studies look practically identical to each other and to the CCAP data, even though they are supposed to come from different random samples.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lacour<span class="sc">$</span>therm1,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"LaCour 1"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">5</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lacour<span class="sc">$</span>therm2,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"LaCour 2"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">5</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lacour<span class="sc">$</span>therm3,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"LaCour 3"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">5</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(ccap<span class="sc">$</span>gaytherm,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"CCAP"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>QQ Plots comparing the first LaCour sample to the CCAP sample.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ccap<span class="sc">$</span>gaytherm2 <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ccap<span class="sc">$</span>gaytherm), <span class="dv">50</span>, ccap<span class="sc">$</span>gaytherm) <span class="co"># if missing, set to 50</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(lacour<span class="sc">$</span>therm1, ccap<span class="sc">$</span>gaytherm, <span class="at">main =</span> <span class="st">"Without NAs"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">'LaCour 1'</span>, <span class="at">ylab =</span> <span class="st">'CCAP'</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(lacour<span class="sc">$</span>therm1, ccap<span class="sc">$</span>gaytherm2, <span class="at">main =</span> <span class="st">"NAs set to 50"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">'LaCour 1'</span>, <span class="at">ylab =</span> <span class="st">'CCAP'</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>QQ Plots comparing the second and third LaCour samples to simulated data from the CCAP study with added noise from a normal distribution.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ccap<span class="sc">$</span>gaytherm3 <span class="ot">=</span> ccap<span class="sc">$</span>gaytherm2 <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(ccap<span class="sc">$</span>gaytherm2), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ccap<span class="sc">$</span>gaytherm3[ccap<span class="sc">$</span>gaytherm3 <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ccap<span class="sc">$</span>gaytherm3[ccap<span class="sc">$</span>gaytherm3 <span class="sc">&gt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>ccap<span class="sc">$</span>gaytherm4 <span class="ot">=</span> ccap<span class="sc">$</span>gaytherm3 <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(ccap<span class="sc">$</span>gaytherm3), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ccap<span class="sc">$</span>gaytherm4[ccap<span class="sc">$</span>gaytherm4 <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ccap<span class="sc">$</span>gaytherm4[ccap<span class="sc">$</span>gaytherm4 <span class="sc">&gt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(lacour<span class="sc">$</span>therm2, ccap<span class="sc">$</span>gaytherm3, <span class="at">main =</span> <span class="st">"LaCour 2 vs. CCAP Simulated"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">'LaCour 2'</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(lacour<span class="sc">$</span>therm3, ccap<span class="sc">$</span>gaytherm4, <span class="at">main =</span> <span class="st">"LaCour 3 vs. CCAP Simulated"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>There you have it. One lecture in and you too could be a political science hero!</p>
+</section>
+</section>
+<section id="try-it-yourself-anes-2020-feeling-thermometers" class="level1">
+<h1>Try it Yourself: ANES (2020) Feeling Thermometers</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'clean_anes.rda'</span>) <span class="co"># load data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Feeling thermometer question:</strong> <em>We’d also like to get your feelings about some groups in American society. When I read the name of a group, we’d like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees-100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don’t feel favorably towards the group and that you don’t care too much for that group. If you don’t feel particularly warm or cold toward a group you would rate them at 50 degrees. If we come to a group you don’t know much about, just tell me and we’ll move on to the next one.</em></p>
+<p>This subset of the 2020 ANES dataset contains feeling thermometers towards the following groups:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: left;">Variable Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Black Americans</td>
+<td style="text-align: left;"><code>black.therm</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">White Americans</td>
+<td style="text-align: left;"><code>white.therm</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hispanics</td>
+<td style="text-align: left;"><code>hispanic.therm</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Asians</td>
+<td style="text-align: left;"><code>asian.therm</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lesbians and Gays</td>
+<td style="text-align: left;"><code>lg.therm</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Christians</td>
+<td style="text-align: left;"><code>christian.therm</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Muslims</td>
+<td style="text-align: left;"><code>muslim.therm</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Illegal Immigrants</td>
+<td style="text-align: left;"><code>illegal.therm</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Feminists</td>
+<td style="text-align: left;"><code>feminist.therm</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Liberals</td>
+<td style="text-align: left;"><code>lib.therm</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Conservatives</td>
+<td style="text-align: left;"><code>con.therm</code></td>
+</tr>
+</tbody>
+</table>
+<p>Choose which feeling thermometer you’d like to analyze by replacing <code>feminist.therm</code> in the following cell with the variable name of your thermometer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replace 'feminist.therm' with your variable name</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>thermometer <span class="ot">&lt;-</span> <span class="st">'feminist.therm'</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(df[, <span class="fu">paste</span>(thermometer)])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(y)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="measures-of-location" class="level2">
+<h2 class="anchored" data-anchor-id="measures-of-location">Measures of Location</h2>
+<p>Fill in the following code chunk with the proper functions for mean, median, and mode.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use this cell to fill in the proper functions for measures of location for variable y</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mean</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>mean.y <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># median</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>median.y <span class="ot">&lt;-</span> <span class="fu">median</span>(y)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># mode</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>mode.y <span class="ot">&lt;-</span> <span class="fu">which.max</span>(<span class="fu">table</span>(y))</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>mode.y <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(mode.y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Statistic</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td>58.5640186</td>
+</tr>
+<tr class="even">
+<td>Median</td>
+<td>60</td>
+</tr>
+<tr class="odd">
+<td>Mode</td>
+<td>50</td>
+</tr>
+</tbody>
+</table>
+<section id="summary-function" class="level3">
+<h3 class="anchored" data-anchor-id="summary-function"><code>summary()</code> function</h3>
+<p>You can view the minimum, maximum, median, mean, 1st quartile (0.25 quantile), and 3rd Quartile (0.75 quantile) of a variable by using the <code>summary()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.00   50.00   60.00   58.56   85.00   97.00 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="measures-of-scale" class="level2">
+<h2 class="anchored" data-anchor-id="measures-of-scale">Measures of Scale</h2>
+<p>Fill in the following code chunk with the proper functions for the interquartile range, median absolute deviation, variance, and standard deviation.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use this cell to fill in the proper functions for measures of scale for variable y</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># IQR</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>iqr.y <span class="ot">&lt;-</span> <span class="fu">IQR</span>(y)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># MAD</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>mad.y <span class="ot">&lt;-</span> <span class="fu">mad</span>(y)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># variance</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>variance.y <span class="ot">&lt;-</span> <span class="fu">var</span>(y)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co"># standard deviation</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>standard.deviation.y <span class="ot">&lt;-</span> <span class="fu">sd</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Statistic</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Interquartile Range (IQR)</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td>Median Absolute Deviation (MAD)</td>
+<td>29.652</td>
+</tr>
+<tr class="odd">
+<td>Variance</td>
+<td>691.8391093</td>
+</tr>
+<tr class="even">
+<td>Standard Deviation</td>
+<td>26.3028346</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="plots" class="level2">
+<h2 class="anchored" data-anchor-id="plots">Plots</h2>
+<p>Create each of the following plots for your chosen feeling thermometer.</p>
+<section id="histogram" class="level3">
+<h3 class="anchored" data-anchor-id="histogram">Histogram</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">col =</span> <span class="st">'#00274C'</span>, <span class="at">xlab =</span> <span class="st">"Rating"</span>, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Feeling Thermometer Rating: "</span>, thermometer),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="boxplot" class="level3">
+<h3 class="anchored" data-anchor-id="boxplot">Boxplot</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(y, <span class="at">ylab =</span> <span class="st">"Rating"</span>,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Feeling Thermometer Rating: "</span>, thermometer))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="empirical-distribution-function" class="level3">
+<h3 class="anchored" data-anchor-id="empirical-distribution-function">Empirical Distribution Function</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ecdf</span>(y), <span class="co">#cex=0.5, </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Rating"</span>, </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Feeling Thermometer Rating: "</span>, thermometer))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="quantile-plot" class="level3">
+<h3 class="anchored" data-anchor-id="quantile-plot">Quantile Plot</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">ppoints</span>(<span class="dv">10001</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sample.q <span class="ot">&lt;-</span> <span class="fu">quantile</span>(y, <span class="at">probs =</span> pp)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pp, sample.q, <span class="at">xlab =</span> <span class="st">"p"</span>, <span class="at">ylab =</span> <span class="st">"Sample Quantiles (Rating)"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Feeling Thermometer Rating: "</span>, thermometer))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="qq-plot---compared-to-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="qq-plot---compared-to-normal-distribution">QQ Plot - Compared to Normal Distribution</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>theoretical.q <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(pp, <span class="at">mean =</span> <span class="fu">mean</span>(y), <span class="at">sd =</span> <span class="fu">sd</span>(y))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theoretical.q, sample.q, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Theoretical Normal Quantiles"</span>, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Sample Quantiles (Rating)"</span>, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Feeling Thermometer Rating: "</span>, thermometer))</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="comparing-subgroups" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-subgroups">Comparing Subgroups</h2>
+<p>In the following section, we will compare the thermometer ratings of two subsets of our sample. You can choose from the following binary variables:</p>
+
+<table class="table">
+<thead>
+<tr class="header">
+<th>
+<p>
+Variable Name
+</p>
+</th>
+<th>
+<p>
+Values
+</p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>
+<p>
+<code>bachelors</code>
+</p>
+</td>
+<td>
+<p>
+1 = has Bachelors degree or more
+</p>
+<p>
+0 = does not
+</p>
+</td>
+</tr>
+<tr class="even">
+<td>
+<p>
+<code>christian</code>
+</p>
+</td>
+<td>
+<p>
+1 = Christian (Protestant or Catholic)
+</p>
+<p>
+0 = not
+</p>
+</td>
+</tr>
+<tr class="odd">
+<td>
+<p>
+<code>married</code>
+</p>
+</td>
+<td>
+<p>
+1 = married
+</p>
+<p>
+0 = not
+</p>
+</td>
+</tr>
+</tbody>
+
+</table>
+<p>Choose which feeling thermometer you’d like to analyze by replacing <code>feminist.therm</code> in the following cell with the variable name of your thermometer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replace 'married' with your variable name</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">'married'</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>subgroup.df <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> df[, <span class="fu">paste</span>(x)], <span class="at">y =</span> df[, <span class="fu">paste</span>(thermometer)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="histograms" class="level3">
+<h3 class="anchored" data-anchor-id="histograms">Histograms</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">histogram</span>( <span class="sc">~</span> y <span class="sc">|</span> x, <span class="at">data =</span> subgroup.df, <span class="at">type =</span> <span class="st">"count"</span>, </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylab =</span> <span class="st">'Rating'</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>           </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Feeling Thermometer Rating: "</span>, thermometer))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="qq-plot" class="level3">
+<h3 class="anchored" data-anchor-id="qq-plot">QQ Plot</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">ppoints</span>(<span class="dv">10001</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sample.q<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">quantile</span>(subgroup.df<span class="sc">$</span>y[subgroup.df<span class="sc">$</span>x <span class="sc">==</span> <span class="dv">0</span>], <span class="at">probs =</span> pp)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>sample.q<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">quantile</span>(subgroup.df<span class="sc">$</span>y[subgroup.df<span class="sc">$</span>x <span class="sc">==</span> <span class="dv">1</span>], <span class="at">probs =</span> pp)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sample.q<span class="fl">.0</span>, sample.q<span class="fl">.1</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Sample Quantiles (Rating among 0)"</span>, </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Sample Quantiles (Rating among 1)"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Feeling Thermometer Rating: "</span>, thermometer))</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="boxplots" class="level3">
+<h3 class="anchored" data-anchor-id="boxplots">Boxplots</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bwplot</span>(x <span class="sc">~</span> y, <span class="at">data =</span> subgroup.df, <span class="at">horizontal=</span><span class="cn">TRUE</span>,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Feeling Thermometer Rating: "</span>, thermometer))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="week1_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

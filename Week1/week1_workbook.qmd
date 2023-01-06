@@ -1,0 +1,211 @@
+---
+title: "Week 1: Data Summarization"
+subtitle: POLSCI 699 Section
+author: Shayla F. Olson
+date: 01/07/2023
+format:
+  html:
+    code-overflow: wrap
+    toc: true
+editor: visual
+---
+
+# Try it Yourself: ANES (2020) Feeling Thermometers
+
+```{r}
+library(haven)
+load('clean_anes.rda') # load data
+```
+
+**Feeling thermometer question:** *We'd also like to get your feelings about some groups in American society. When I read the name of a group, we'd like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees-100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If we come to a group you don't know much about, just tell me and we'll move on to the next one.*
+
+This subset of the 2020 ANES dataset contains feeling thermometers towards the following groups:
+
+| Group              | Variable Name     |
+|:-------------------|:------------------|
+| Black Americans    | `black.therm`     |
+| White Americans    | `white.therm`     |
+| Hispanics          | `hispanic.therm`  |
+| Asians             | `asian.therm`     |
+| Lesbians and Gays  | `lg.therm`        |
+| Christians         | `christian.therm` |
+| Muslims            | `muslim.therm`    |
+| Illegal Immigrants | `illegal.therm`   |
+| Feminists          | `feminist.therm`  |
+| Liberals           | `lib.therm`       |
+| Conservatives      | `con.therm`       |
+
+Choose which feeling thermometer you'd like to analyze by replacing `feminist.therm` in the following cell with the variable name of your thermometer.
+
+```{r}
+# replace 'feminist.therm' with your variable name
+thermometer <- 'feminist.therm'
+
+y <- na.omit(df[, paste(thermometer)])
+#summary(y)
+```
+
+## Measures of Location
+
+Fill in the following code chunk with the proper functions for mean, median, and mode.
+
+```{r}
+#| code-fold: true
+# use this cell to fill in the proper functions for measures of location for variable y
+
+# mean
+mean.y <- ' '
+
+# median
+median.y <- ' '
+
+# mode
+mode.y <- ' '
+```
+
+| Statistic | Value        |
+|-----------|--------------|
+| Mean      | `r mean.y`   |
+| Median    | `r median.y` |
+| Mode      | `r mode.y`   |
+
+### `summary()` function
+
+You can view the minimum, maximum, median, mean, 1st quartile (0.25 quantile), and 3rd Quartile (0.75 quantile) of a variable by using the `summary()` function:
+
+```{r}
+summary(y)
+```
+
+## Measures of Scale
+
+Fill in the following code chunk with the proper functions for the interquartile range, median absolute deviation, variance, and standard deviation.
+
+```{r}
+#| code-fold: true
+# use this cell to fill in the proper functions for measures of scale for variable y
+
+# IQR
+iqr.y <- ' '
+
+# MAD
+mad.y <- ' '
+
+# variance
+variance.y <- ' '
+
+# standard deviation
+standard.deviation.y <- ' '
+```
+
+| Statistic                       | Value                    |
+|---------------------------------|--------------------------|
+| Interquartile Range (IQR)       | `r iqr.y`                |
+| Median Absolute Deviation (MAD) | `r mad.y`                |
+| Variance                        | `r variance.y`           |
+| Standard Deviation              | `r standard.deviation.y` |
+
+## Plots
+
+Create each of the following plots for your chosen feeling thermometer.
+
+### Histogram
+
+```{r}
+# create histogram here
+```
+
+### Boxplot
+
+```{r}
+# create boxplot here
+```
+
+### Empirical Distribution Function
+
+```{r}
+# create ecdf plot here
+```
+
+### Quantile Plot
+
+```{r}
+# create quantile plot here
+```
+
+### QQ Plot - Compared to Normal Distribution
+
+```{r}
+# create qqplot comparing thermometer to normal distribution here
+```
+
+## Comparing Subgroups
+
+In the following section, we will compare the thermometer ratings of two subsets of our sample. You can choose from the following binary variables:
+
+<table>
+<thead>
+<tr class="header">
+<th><p>Variable Name</p></th>
+<th><p>Values</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p><code>bachelors</code></p></td>
+<td><p>1 = has Bachelors degree or more</p>
+<p>0 = does not</p></td>
+</tr>
+<tr class="even">
+<td><p><code>christian</code></p></td>
+<td><p>1 = Christian (Protestant or Catholic)</p>
+<p>0 = not</p></td>
+</tr>
+<tr class="odd">
+<td><p><code>married</code></p></td>
+<td><p>1 = married</p>
+<p>0 = not</p></td>
+</tr>
+</tbody>
+</table>
+
+Choose which feeling thermometer you'd like to analyze by replacing `feminist.therm` in the following cell with the variable name of your thermometer.
+
+```{r}
+# replace 'married' with your variable name
+x <- 'married'
+
+subgroup.df <- na.omit(data.frame(x = df[, paste(x)], y = df[, paste(thermometer)]))
+```
+
+### Histograms
+
+```{r}
+#| code-fold: true
+library(lattice)
+histogram( ~ y | x, data = subgroup.df, type = "count", 
+           ylab = 'Rating',
+           main = paste0("Feeling Thermometer Rating: ", thermometer))
+```
+
+### QQ Plot
+
+```{r}
+#| code-fold: true
+pp <- ppoints(10001)
+sample.q.0 <- quantile(subgroup.df$y[subgroup.df$x == 0], probs = pp)
+sample.q.1 <- quantile(subgroup.df$y[subgroup.df$x == 1], probs = pp)
+plot(sample.q.0, sample.q.1,
+     xlab = "Sample Quantiles (Rating among 0)", 
+     ylab = "Sample Quantiles (Rating among 1)",
+     main = paste0("Feeling Thermometer Rating: ", thermometer))
+abline(0, 1, col="red", lwd=2)
+```
+
+### Boxplots
+
+```{r}
+#| code-fold: true
+bwplot(x ~ y, data = subgroup.df, horizontal=TRUE,
+       main = paste0("Feeling Thermometer Rating: ", thermometer))
+```
